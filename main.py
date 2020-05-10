@@ -1,8 +1,11 @@
+import json
+import os
 import discord
 from discord.ext import commands
 
-
-botToken = 'yourToken'
+with open('token.json', 'r') as f:
+    config_dict = json.load(f)
+botToken = config_dict['token']
 bot = commands.Bot(command_prefix='*')
 
 
@@ -15,12 +18,12 @@ async def on_ready():
 # Print user messages to chat, only 1 whitespace between 2 words
 async def 骂(ctx, *args):
     if len(args) < 1:
-        await ctx.send(f' 你想骂啥？')
+        await ctx.send(f' 你想骂谁？')
     else:
         user_mentioned = [user.mention for user in ctx.message.mentions]
         sentence = " ".join(args[len(user_mentioned)::])
-        print(f"{' '.join(user_mentioned)} length of the user list: {len(user_mentioned)}")
-        await ctx.send(f"{ ' '.join(user_mentioned) } {sentence}")
+        for n in range(5):
+            await ctx.send(f"{ ' '.join(user_mentioned) } {sentence}")
 
 bot.run(botToken)
 
